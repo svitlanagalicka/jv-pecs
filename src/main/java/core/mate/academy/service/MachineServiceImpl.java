@@ -9,35 +9,33 @@ import core.mate.academy.model.Truck;
 import core.mate.academy.model.TruckProducer;
 import java.util.ArrayList;
 import java.util.List;
-
 /**
  * Your implementation of MachineService.
  */
-public class MachineServiceImpl<T extends Machine> implements MachineService<T> {
+
+public class MachineServiceImpl implements MachineService<Machine> {
     @Override
-    public List<T> getAll(Class<? extends T> type) {
+    public List<Machine> getAll(Class<? extends Machine> type) {
+        List<Machine> machines = new ArrayList<>();
         if (type == Bulldozer.class) {
-            BulldozerProducer bulldozer = new BulldozerProducer();
-            return (List<T>) bulldozer.get();
+            machines.addAll(new BulldozerProducer().get());
         } else if (type == Excavator.class) {
-            ExcavatorProducer excavator = new ExcavatorProducer();
-            return (List<T>) excavator.get();
+            machines.addAll(new ExcavatorProducer().get());
         } else if (type == Truck.class) {
-            TruckProducer truck = new TruckProducer();
-            return (List<T>) truck.get();
+            machines.addAll(new TruckProducer().get());
         }
-        return new ArrayList<>();
+        return machines;
     }
 
     @Override
-    public void fill(List<? super T> machines, T value) {
+    public void fill(List<? super Machine> machines, Machine value) {
         for (int i = 0; i < machines.size(); i++) {
             machines.set(i, value);
         }
     }
 
     @Override
-    public void startWorking(List<? extends T> machines) {
+    public void startWorking(List<? extends Machine> machines) {
         for (Machine machine : machines) {
             machine.doWork();
         }
